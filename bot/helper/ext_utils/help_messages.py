@@ -19,7 +19,7 @@ yt = """<b>Send link along with command line</b>:
 /cmd -n new name -z password -opt x:y|x1:y1
 
 Check here all supported <a href='https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md'>SITES</a>
-Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L212'>FILE</a> or use this <a href='https://t.me/mltb_official_channel/177'>script</a> to convert cli arguments to api options."""
+Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L212'>FILE</a> or use this <a href='https://t.me/alonekingstar77/177'>script</a> to convert cli arguments to api options."""
 
 clone = """Send Gdrive|Gdot|Filepress|Filebee|Appdrive|Gdflix link or rclone path along with command or by replying to the link/rc_path by command.
 Use -sync to use sync method in rclone. Example: /cmd rcl/rclone_path -up rcl/rclone_path/rc -sync"""
@@ -186,7 +186,7 @@ yt_opt = """<b>Options</b>: -opt
 
 /cmd link -opt {"format": "bv*+mergeall[vcodec=none]", "nocheckcertificate": True, "playliststart": 10, "fragment_retries": float("inf"), "matchtitle": "S13", "writesubtitles": True, "live_from_start": True, "postprocessor_args": {"ffmpeg": ["-threads", "4"]}, "wait_for_video": (5, 100), "download_ranges": [{"start_time": 0, "end_time": 10}]}
 
-Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L184'>FILE</a> or use this <a href='https://t.me/mltb_official_channel/177'>script</a> to convert cli arguments to api options."""
+Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L184'>FILE</a> or use this <a href='https://t.me/alonekingstar77/177'>script</a> to convert cli arguments to api options."""
 
 convert_media = """<b>Convert Media</b>: -ca -cv
 /cmd link -ca mp3 -cv mp4 (convert all audios to mp3 and all videos to mp4)
@@ -216,7 +216,7 @@ If DEFAULT_UPLOAD is `gd` then you can pass up: `rc` to upload to RCLONE_PATH.
 You can simply edit using owner/user config from usetting without adding mrcc: before the path"""
 
 name_sub = r"""<b>Name Substitution</b>: -ns
-/cmd link -ns script/code/s | mirror/leech | tea/ /s | clone | cpu/ | \[mltb\]/mltb | \\text\\/text/s
+/cmd link -ns script/code/s | mirror/leech | tea/ /s | clone | cpu/ | \[alonekingstar77\]/alonekingstar77 | \\text\\/text/s
 This will affect on all files. Format: wordToReplace/wordToReplaceWith/sensitiveCase
 Word Subtitions. You can add pattern instead of normal text. Timeout: 60 sec
 NOTE: You must add \ before any character, those are the characters: \^$.|?*+()[]{}-
@@ -225,7 +225,7 @@ NOTE: You must add \ before any character, those are the characters: \^$.|?*+()[
 4. tea will get replaced by space with sensitive case
 5. clone will get removed
 6. cpu will get replaced by space
-7. [mltb] will get replaced by mltb
+7. [alonekingstar77] will get replaced by alonekingstar77
 8. \text\ will get replaced by text with sensitive case
 """
 
@@ -245,13 +245,13 @@ ffmpeg_cmds = """<b>FFmpeg Commands</b>: -ff
 list of lists of ffmpeg commands. You can set multiple ffmpeg commands for all files before upload. Don't write ffmpeg at beginning, start directly with the arguments.
 Notes:
 1. Add <code>-del</code> to the list(s) which you want from the bot to delete the original files after command run complete!
-3. To execute one of pre-added lists in bot like: ({"subtitle": ["-i mltb.mkv -c copy -c:s srt mltb.mkv"]}), you must use -ff subtitle (list key)
-Examples: ["-i mltb.mkv -c copy -c:s srt mltb.mkv", "-i mltb.video -c copy -c:s srt mltb", "-i mltb.m4a -c:a libmp3lame -q:a 2 mltb.mp3", "-i mltb.audio -c:a libmp3lame -q:a 2 mltb.mp3", "-i mltb -map 0:a -c copy mltb.mka -map 0:s -c copy mltb.srt", "-i mltb -i tg://openmessage?user_id=5272663208&message_id=322801 -filter_complex 'overlay=W-w-10:H-h-10' -c:a copy mltb"]
-Here I will explain how to use mltb.* which is reference to files you want to work on.
-1. First cmd: the input is mltb.mkv so this cmd will work only on mkv videos and the output is mltb.mkv also so all outputs is mkv. -del will delete the original media after complete run of the cmd.
-2. Second cmd: the input is mltb.video so this cmd will work on all videos and the output is only mltb so the extension is same as input files.
-3. Third cmd: the input in mltb.m4a so this cmd will work only on m4a audios and the output is mltb.mp3 so the output extension is mp3.
-4. Fourth cmd: the input is mltb.audio so this cmd will work on all audios and the output is mltb.mp3 so the output extension is mp3.
+3. To execute one of pre-added lists in bot like: ({"subtitle": ["-i alonekingstar77.mkv -c copy -c:s srt alonekingstar77.mkv"]}), you must use -ff subtitle (list key)
+Examples: ["-i alonekingstar77.mkv -c copy -c:s srt alonekingstar77.mkv", "-i alonekingstar77.video -c copy -c:s srt alonekingstar77", "-i alonekingstar77.m4a -c:a libmp3lame -q:a 2 alonekingstar77.mp3", "-i alonekingstar77.audio -c:a libmp3lame -q:a 2 alonekingstar77.mp3", "-i alonekingstar77 -map 0:a -c copy alonekingstar77.mka -map 0:s -c copy alonekingstar77.srt", "-i alonekingstar77 -i tg://openmessage?user_id=5272663208&message_id=322801 -filter_complex 'overlay=W-w-10:H-h-10' -c:a copy alonekingstar77"]
+Here I will explain how to use alonekingstar77.* which is reference to files you want to work on.
+1. First cmd: the input is alonekingstar77.mkv so this cmd will work only on mkv videos and the output is alonekingstar77.mkv also so all outputs is mkv. -del will delete the original media after complete run of the cmd.
+2. Second cmd: the input is alonekingstar77.video so this cmd will work on all videos and the output is only alonekingstar77 so the extension is same as input files.
+3. Third cmd: the input in alonekingstar77.m4a so this cmd will work only on m4a audios and the output is alonekingstar77.mp3 so the output extension is mp3.
+4. Fourth cmd: the input is alonekingstar77.audio so this cmd will work on all audios and the output is alonekingstar77.mp3 so the output extension is mp3.
 5. Fifth cmd: You can add telegram link for small size input like photo to set watermark"""
 
 YT_HELP_DICT = {
@@ -365,32 +365,32 @@ user_settings_text = {
     "INCLUDED_EXTENSIONS": "Send included extensions separated by space without dot at beginning. Timeout: 60 sec",
     "NAME_SUBSTITUTE": r"""Word Subtitions. You can add pattern instead of normal text. Timeout: 60 sec
 NOTE: You must add \ before any character, those are the characters: \^$.|?*+()[]{}-
-Example: script/code/s | mirror/leech | tea/ /s | clone | cpu/ | \[mltb\]/mltb | \\text\\/text/s
+Example: script/code/s | mirror/leech | tea/ /s | clone | cpu/ | \[alonekingstar77\]/alonekingstar77 | \\text\\/text/s
 1. script will get replaced by code with sensitive case
 2. mirror will get replaced by leech
 4. tea will get replaced by space with sensitive case
 5. clone will get removed
 6. cpu will get replaced by space
-7. [mltb] will get replaced by mltb
+7. [alonekingstar77] will get replaced by alonekingstar77
 8. \text\ will get replaced by text with sensitive case
 """,
     "YT_DLP_OPTIONS": """Send dict of YT-DLP Options. Timeout: 60 sec
 Format: {key: value, key: value, key: value}.
 Example: {"format": "bv*+mergeall[vcodec=none]", "nocheckcertificate": True, "playliststart": 10, "fragment_retries": float("inf"), "matchtitle": "S13", "writesubtitles": True, "live_from_start": True, "postprocessor_args": {"ffmpeg": ["-threads", "4"]}, "wait_for_video": (5, 100), "download_ranges": [{"start_time": 0, "end_time": 10}]}
-Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L184'>FILE</a> or use this <a href='https://t.me/mltb_official_channel/177'>script</a> to convert cli arguments to api options.""",
+Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L184'>FILE</a> or use this <a href='https://t.me/alonekingstar77/177'>script</a> to convert cli arguments to api options.""",
     "FFMPEG_CMDS": """Dict of list values of ffmpeg commands. You can set multiple ffmpeg commands for all files before upload. Don't write ffmpeg at beginning, start directly with the arguments.
-Examples: {"subtitle": ["-i mltb.mkv -c copy -c:s srt mltb.mkv", "-i mltb.video -c copy -c:s srt mltb"], "convert": ["-i mltb.m4a -c:a libmp3lame -q:a 2 mltb.mp3", "-i mltb.audio -c:a libmp3lame -q:a 2 mltb.mp3"], "extract": ["-i mltb -map 0:a -c copy mltb.mka -map 0:s -c copy mltb.srt"], "metadata": ["-i mltb.mkv -map 0 -map -0:v:1 -map -0:s -map 0:s:0 -map -0:v:m:attachment -c copy -metadata:s:v:0 title={title} -metadata:s:a:0 title={title} -metadata:s:a:1 title={title2} -metadata:s:a:2 title={title2} -c:s srt -metadata:s:s:0 title={title3} mltb -y -del"], "watermark": ["-i mltb -i tg://openmessage?user_id=5272663208&message_id=322801 -filter_complex 'overlay=W-w-10:H-h-10' -c:a copy mltb"]}
+Examples: {"subtitle": ["-i alonekingstar77.mkv -c copy -c:s srt alonekingstar77.mkv", "-i alonekingstar77.video -c copy -c:s srt alonekingstar77"], "convert": ["-i alonekingstar77.m4a -c:a libmp3lame -q:a 2 alonekingstar77.mp3", "-i alonekingstar77.audio -c:a libmp3lame -q:a 2 alonekingstar77.mp3"], "extract": ["-i alonekingstar77 -map 0:a -c copy alonekingstar77.mka -map 0:s -c copy alonekingstar77.srt"], "metadata": ["-i alonekingstar77.mkv -map 0 -map -0:v:1 -map -0:s -map 0:s:0 -map -0:v:m:attachment -c copy -metadata:s:v:0 title={title} -metadata:s:a:0 title={title} -metadata:s:a:1 title={title2} -metadata:s:a:2 title={title2} -c:s srt -metadata:s:s:0 title={title3} alonekingstar77 -y -del"], "watermark": ["-i alonekingstar77 -i tg://openmessage?user_id=5272663208&message_id=322801 -filter_complex 'overlay=W-w-10:H-h-10' -c:a copy alonekingstar77"]}
 Notes:
 - Add `-del` to the list which you want from the bot to delete the original files after command run complete!
 - To execute one of those lists in bot for example, you must use -ff subtitle (list key) or -ff convert (list key)
-Here I will explain how to use mltb.* which is reference to files you want to work on.
-1. First cmd: the input is mltb.mkv so this cmd will work only on mkv videos and the output is mltb.mkv also so all outputs is mkv. -del will delete the original media after complete run of the cmd.
-2. Second cmd: the input is mltb.video so this cmd will work on all videos and the output is only mltb so the extension is same as input files.
-3. Third cmd: the input in mltb.m4a so this cmd will work only on m4a audios and the output is mltb.mp3 so the output extension is mp3.
-4. Fourth cmd: the input is mltb.audio so this cmd will work on all audios and the output is mltb.mp3 so the output extension is mp3.
+Here I will explain how to use alonekingstar77.* which is reference to files you want to work on.
+1. First cmd: the input is alonekingstar77.mkv so this cmd will work only on mkv videos and the output is alonekingstar77.mkv also so all outputs is mkv. -del will delete the original media after complete run of the cmd.
+2. Second cmd: the input is alonekingstar77.video so this cmd will work on all videos and the output is only alonekingstar77 so the extension is same as input files.
+3. Third cmd: the input in alonekingstar77.m4a so this cmd will work only on m4a audios and the output is alonekingstar77.mp3 so the output extension is mp3.
+4. Fourth cmd: the input is alonekingstar77.audio so this cmd will work on all audios and the output is alonekingstar77.mp3 so the output extension is mp3.
 5. FFmpeg Variables in last cmd which is metadata ({title}, {title2}, etc...), you can edit them in usetting
 6. Telegram link for small size inputs like photo to set watermark.""",
-    "CLONE_DUMP_CHATS": "Send List/Int/Str Chat_id/username|thread_id. Example: -100xxxx555|5 or @dumpchat|8 or @mltb_dump or pm or List like: [-100xxx885552|6, '@username', 65585541254, 'pm']",
+    "CLONE_DUMP_CHATS": "Send List/Int/Str Chat_id/username|thread_id. Example: -100xxxx555|5 or @dumpchat|8 or @alonekingstar77_dump or pm or List like: [-100xxx885552|6, '@username', 65585541254, 'pm']",
 }
 
 

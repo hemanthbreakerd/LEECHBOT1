@@ -73,7 +73,7 @@ same_directory_lock = Lock()
 
 sabnzbd_client = SabnzbdClient(
     host="http://localhost",
-    api_key="mltb",
+    api_key="alonekingstar77",
     port="8070",
 )
 

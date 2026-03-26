@@ -759,7 +759,7 @@ class TaskConfig:
                     (
                         cmd[index + 1]
                         for index in input_indexes
-                        if cmd[index + 1].startswith("mltb")
+                        if cmd[index + 1].startswith("alonekingstar77")
                     ),
                     "",
                 )
@@ -807,7 +807,7 @@ class TaskConfig:
                     LOGGER.info(f"Running ffmpeg cmd for: {file_path}")
                     var_cmd = cmd.copy()
                     for index in input_indexes:
-                        if cmd[index + 1].startswith("mltb"):
+                        if cmd[index + 1].startswith("alonekingstar77"):
                             var_cmd[index + 1] = file_path
                         elif is_telegram_link(cmd[index + 1]):
                             msg = (await get_tg_link_message(cmd[index + 1]))[0]
@@ -844,7 +844,7 @@ class TaskConfig:
                         for file_ in natsorted(files):
                             if (
                                 ospath.join(dirpath, file_) in f_path
-                                or file_ == "mltb.txt"
+                                or file_ == "alonekingstar77.txt"
                             ):
                                 continue
                             var_cmd = cmd.copy()
@@ -867,7 +867,7 @@ class TaskConfig:
                                     continue
                             self.proceed_count += 1
                             for index in input_indexes:
-                                if cmd[index + 1].startswith("mltb"):
+                                if cmd[index + 1].startswith("alonekingstar77"):
                                     if cmd[index + 1].endswith("txt"):
                                         txt = ""
                                         for mf in natsorted(files):
@@ -876,10 +876,10 @@ class TaskConfig:
                                                 f_path.append(df)
                                                 txt += f"file '{ffconcat_escape(df)}'\n"
                                         async with aiopen(
-                                            f"{dirpath}/mltb.txt", "w"
+                                            f"{dirpath}/alonekingstar77.txt", "w"
                                         ) as f:
                                             await f.write(txt)
-                                        var_cmd[index + 1] = f"{dirpath}/mltb.txt"
+                                        var_cmd[index + 1] = f"{dirpath}/alonekingstar77.txt"
                                     else:
                                         var_cmd[index + 1] = f_path
                                 elif is_telegram_link(cmd[index + 1]):
@@ -917,8 +917,8 @@ class TaskConfig:
                                         newname = file_name.split(".", 1)[-1]
                                         newres = ospath.join(dirpath, newname)
                                         await move(res[0], newres)
-                            if await aiopath.exists(f"{dirpath}/mltb.txt"):
-                                await remove(f"{dirpath}/mltb.txt")
+                            if await aiopath.exists(f"{dirpath}/alonekingstar77.txt"):
+                                await remove(f"{dirpath}/alonekingstar77.txt")
                 for inp in inputs.values():
                     if "/temp/" in inp and await aiopath.exists(inp):
                         await remove(inp)

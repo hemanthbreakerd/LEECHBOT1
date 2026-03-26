@@ -232,7 +232,7 @@ class TelegramUploader:
         for dirpath, _, files in natsorted(await sync_to_async(walk, self._path)):
             if dirpath.strip().endswith("/yt-dlp-thumb"):
                 continue
-            if dirpath.strip().endswith("_mltbss"):
+            if dirpath.strip().endswith("_alonekingstar77ss"):
                 await self._send_screenshots(dirpath, files)
                 await rmtree(dirpath, ignore_errors=True)
                 continue

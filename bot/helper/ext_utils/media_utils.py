@@ -121,7 +121,7 @@ async def take_ss(video_file, ss_nb) -> bool:
     if duration != 0:
         dirpath, name = video_file.rsplit("/", 1)
         name, _ = ospath.splitext(name)
-        dirpath = f"{dirpath}/{name}_mltbss"
+        dirpath = f"{dirpath}/{name}_alonekingstar77ss"
         await makedirs(dirpath, exist_ok=True)
         interval = duration // (ss_nb + 1)
         cap_time = interval
@@ -398,24 +398,24 @@ class FFMpeg:
         indices = [
             index
             for index, item in enumerate(ffmpeg)
-            if (item.startswith("mltb") or item == "mltb") and item != "mltb.txt"
+            if (item.startswith("alonekingstar77") or item == "alonekingstar77") and item != "alonekingstar77.txt"
         ]
         outputs = []
         for index in indices:
             output_file = ffmpeg[index]
-            if output_file != "mltb" and output_file.startswith("mltb"):
+            if output_file != "alonekingstar77" and output_file.startswith("alonekingstar77"):
                 bo, oext = ospath.splitext(output_file)
                 if oext:
                     if isinstance(f_path, list) or ext != oext:
                         prefix = ""
                     else:
-                        prefix = f"ffmpeg{index}." if bo == "mltb" else ""
+                        prefix = f"ffmpeg{index}." if bo == "alonekingstar77" else ""
                     ext = ""
                 else:
                     prefix = ""
             else:
                 prefix = f"ffmpeg{index}."
-            output = f"{dir}/{prefix}{output_file.replace("mltb", base_name)}{ext}"
+            output = f"{dir}/{prefix}{output_file.replace("alonekingstar77", base_name)}{ext}"
             outputs.append(output)
             ffmpeg[index] = output
         if self._listener.is_cancelled:

@@ -14,7 +14,7 @@ class Config:
     CMD_SUFFIX = ""
     CLONE_DUMP_CHATS = ""
     DATABASE_URL = ""
-    DATABASE_NAME = "mltb"
+    DATABASE_NAME = "alonekingstar77"
     DEFAULT_UPLOAD = "rc"
     EQUAL_SPLITS = False
     EXCLUDED_EXTENSIONS = ""

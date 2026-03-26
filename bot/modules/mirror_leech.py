@@ -74,6 +74,8 @@ class Mirror(TaskListener):
     async def new_event(self):
         text = self.message.text.split("\n")
         input_list = text[0].split(" ")
+        if self.options:
+            input_list.extend(self.options.split())
 
         args = {
             "-doc": False,

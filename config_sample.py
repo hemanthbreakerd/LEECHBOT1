@@ -10,7 +10,7 @@ CMD_SUFFIX = ""
 AUTHORIZED_CHATS = ""
 SUDO_USERS = ""
 DATABASE_URL = ""
-DATABASE_NAME = "mltb"
+DATABASE_NAME = "alonekingstar77"
 STATUS_LIMIT = 4
 DEFAULT_UPLOAD = "rc"
 STATUS_UPDATE_INTERVAL = 15
@@ -22,7 +22,7 @@ INCOMPLETE_TASK_NOTIFIER = False
 YT_DLP_OPTIONS = ""
 USE_SERVICE_ACCOUNTS = False
 NAME_SUBSTITUTE = r""
-FFMPEG_CMDS = {"merge": ["-f concat -safe 0 -i mltb.txt -c copy mltb.mp4 -del"]}
+FFMPEG_CMDS = {"merge": ["-f concat -safe 0 -i alonekingstar77.txt -c copy alonekingstar77.mp4 -del"]}
 UPLOAD_PATHS = {}
 # GDrive Tools
 GDRIVE_ID = ""

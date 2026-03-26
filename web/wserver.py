@@ -22,7 +22,7 @@ aria2 = None
 qbittorrent = None
 sabnzbd_client = SabnzbdClient(
     host="http://localhost",
-    api_key="mltb",
+    api_key="alonekingstar77",
     port="8070",
 )
 
@@ -245,8 +245,8 @@ async def set_aria2(gid, selected_files):
 async def homepage():
     return (
         "<h1>See mirror-leech-telegram-bot "
-        "<a href='https://www.github.com/anasty17/mirror-leech-telegram-bot'>@GitHub</a> "
-        "By <a href='https://github.com/anasty17'>Anas</a></h1>"
+        "<a href='https://www.github.com/alonekingstar77/mirror-leech-telegram-bot'>@GitHub</a> "
+        "By <a href='https://github.com/alonekingstar77'>⚡𝗛𝗘𝗠𝗔𝗡𝗧𝗛⚡</a></h1>"
     )
 
 
