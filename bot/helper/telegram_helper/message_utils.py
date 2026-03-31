@@ -65,8 +65,9 @@ async def send_file(message, file, caption=""):
     return res
 
 
-async def send_message_with_content(message, content):
-    res = await message._client.sendMessage(
+async def send_message_with_content(message, content, client=None):
+    client = client or message._client
+    res = await client.sendMessage(
         chat_id=message.chat_id,
         topic_id=message.topic_id,
         reply_to=InputMessageReplyToMessage(message_id=message.id),
@@ -81,8 +82,9 @@ async def send_message_with_content(message, content):
     return res
 
 
-async def send_album(message, contents):
-    res = await TgManager.bot.sendMessageAlbum(
+async def send_album(message, contents, client=None):
+    client = client or TgManager.bot
+    res = await client.sendMessageAlbum(
         chat_id=message.chat_id,
         topic_id=message.topic_id,
         reply_to=InputMessageReplyToMessage(message_id=message.id),

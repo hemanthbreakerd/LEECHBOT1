@@ -4,6 +4,7 @@ from asyncio.subprocess import PIPE
 from magic import Magic
 from natsort import natsorted
 from os import walk, path as ospath, readlink
+from shlex import quote
 from re import split as re_split, I, search as re_search, escape
 from aiofiles.os import (
     remove,
@@ -258,7 +259,7 @@ async def join_files(opath):
             success = True
             for part in parts[1:]:
                 part_path = f"{opath}/{part}"
-                cmd = f'cat "{part_path}" >> "{fpath}"'
+                cmd = f"cat {quote(part_path)} >> {quote(fpath)}"
                 _, stderr, code = await cmd_exec(cmd, True)
                 if code != 0:
                     LOGGER.error(f"Failed to append {part} to {final_name}, stderr: {stderr}")

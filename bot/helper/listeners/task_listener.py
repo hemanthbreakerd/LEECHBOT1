@@ -182,6 +182,7 @@ class TaskListener(TaskConfig):
 
         if self.join and not self.is_file:
             await join_files(up_path)
+            self.size = await get_path_size(up_path)
 
         if self.extract and not self.is_nzb:
             up_path = await self.proceed_extract(up_path, gid)

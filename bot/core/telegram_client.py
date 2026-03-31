@@ -59,6 +59,12 @@ class TgManager:
         await cls.client_manager.start()
         while cls.bot.authorization_state != "authorizationStateReady":
             await sleep(0.5)
+
+        for client in clients:
+            await client.setOption("network_thread_count", 50)
+            await client.setOption("network_delay", 10.0)
+            await client.setOption("network_max_delay", 10.0)
+
         await cls.bot.setAutoDownloadSettings(
             AutoDownloadSettings(), NetworkTypeOther()
         )
