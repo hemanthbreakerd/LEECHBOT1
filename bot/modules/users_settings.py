@@ -154,6 +154,21 @@ async def get_user_settings(from_user, stype="main"):
         else:
             hybrid_leech = "Disabled"
 
+        if (
+            user_dict.get("JOIN", False)
+            or "JOIN" not in user_dict
+            and Config.JOIN
+        ):
+            buttons.data_button(
+                "Disable Join", f"userset {user_id} tog JOIN f"
+            )
+            join = "Enabled"
+        else:
+            buttons.data_button(
+                "Enable Join", f"userset {user_id} tog JOIN t"
+            )
+            join = "Disabled"
+
         buttons.data_button(
             "Thumbnail Layout", f"userset {user_id} menu THUMBNAIL_LAYOUT"
         )
@@ -177,6 +192,7 @@ Leech Prefix is <code>{escape(lprefix)}</code>
 Leech Destination is <code>{leech_dest}</code>
 Leech by <b>{leech_method}</b> session
 HYBRID Leech is <b>{hybrid_leech}</b>
+Join Splitted Files is <b>{join}</b>
 Thumbnail Layout is <b>{thumb_layout}</b>
 """
     elif stype == "rclone":

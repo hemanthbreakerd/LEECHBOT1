@@ -51,6 +51,7 @@ programming in Python.
 - Upload all files to a specific chat (superGroup/channel/private/topic) (global, user, and task option)
 - Equal split size settings (global and user option)
 - Ability to leech split file parts in a media group (global and user option)
+- Ability to automatically join splitted files after download (global and user option)
 - Download restricted messages (document or link) by tg private/public/super links (task option)
 - Choose transfer by bot or user session incase you have a premium plan (global, user option and task option)
 - Mix upload between user and bot session with respect to file size (global, user option and task option)
@@ -185,7 +186,7 @@ programming in Python.
 - Queueing System for all tasks (global option)
 - Ability to zip/unzip multi links in same directory. Mostly helpful in unzipping tg file parts (task option)
 - Bulk download from telegram txt file or text message contains links separated by new line (task option)
-- Join splitted files that have splitted before by split(linux pkg) (task option)
+- Join splitted files that have splitted before by split(linux pkg) (global, user and task option)
 - Sample video Generator (task option)
 - Screenshots Generator (task option)
 - Ability to cancel upload/clone/archive/extract/split/queue (task option)
@@ -385,6 +386,8 @@ see [Using Service Accounts](https://github.com/anasty17/mirror-leech-telegram-b
 - `LEECH_DUMP_CHAT` (`Int`|`Str`): ID or USERNAME or PM(private message) to where files would be uploaded. Add `-100` before channel/superGroup id. To use only specific topic write it in this format `chat_id|thread_id`. Ex:-100XXXXXXXXXXX or -100XXXXXXXXXXX|10 or pm or @xxxxxxx or @xxxxxxx|10.
 
 - `THUMBNAIL_LAYOUT` (`Str`): Thumbnail layout (widthxheight, 2x2, 3x3, 2x4, 4x4, ...) of how many photo arranged for the thumbnail.
+
+- `JOIN` (`Bool`): Default state for joining splitted files. Default is `False`.
 
 
 **7. qBittorrent/Aria2c/Sabnzbd**
@@ -934,6 +937,12 @@ Authentication using [cookies.txt](https://github.com/yt-dlp/yt-dlp/wiki/Extract
 </details>
 </details>
 
+
+# Speed Boost Features
+
+- **Parallel Chunk Download**: Telegram downloads are now split into multiple chunks and downloaded concurrently, significantly increasing download speeds.
+- **Multiple Workers**: Optimized TDLib worker pool to handle multiple upload and download tasks in parallel.
+- **Concurrent Uploads**: Telegram uploader now processes multiple files concurrently within a single task, reaching speeds up to 2000mbps depending on server bandwidth.
 
 # All Thanks To Our Contributors
 

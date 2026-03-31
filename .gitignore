@@ -15,3 +15,5 @@ log.txt
 cfg.zip
 list_drives.txt
 cookies.txt
+__pycache__/
+*.pyc

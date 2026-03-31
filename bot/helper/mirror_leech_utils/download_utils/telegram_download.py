@@ -1,4 +1,4 @@
-from asyncio import Lock, sleep
+from asyncio import Lock, sleep, gather, Semaphore
 from time import time
 from aioshutil import move
 from aiofiles.os import makedirs
@@ -72,35 +72,44 @@ class TelegramDownloadHelper:
         await self._listener.on_download_complete()
 
     async def _download_chunk(self, message, offset, limit):
-        while True:
-            download = await message.download(
-                offset=offset,
-                limit=limit,
-                synchronous=True,
-            )
-            if download.is_error:
-                if wait_for := download.limited_seconds:
-                    LOGGER.warning(download["message"])
-                    await sleep(wait_for * 1.2)
-                    return await self._download_chunk(message, offset, limit)
-            if self._listener.is_cancelled:
-                return 0
-            if offset == 0 and limit == 0:
-                return download
-            offset += limit
-            if self._listener.size - limit < offset:
-                offset = 0
-                limit = 0
+        download = await message.download(
+            offset=offset,
+            limit=limit,
+            synchronous=True,
+        )
+        if download.is_error:
+            if wait_for := download.limited_seconds:
+                LOGGER.warning(download["message"])
+                await sleep(wait_for * 1.2)
+                return await self._download_chunk(message, offset, limit)
+        return download
 
     async def _download(self, message, dl_path):
-        if self.session == "user" and TgManager.IS_PREMIUM_USER:
-            limit = 150 * 1024 * 1024 if self._listener.size > 150 * 1024 * 1024 else 0
-        elif self._listener.size > 20 * 1024 * 1024:
-            limit = 20 * 1024 * 1024
-        else:
-            limit = 0
         self._start_time = time()
-        download = await self._download_chunk(message, 0, limit)
+        size = self._listener.size
+        if size > 10 * 1024 * 1024:
+            if self.session == "user" and TgManager.IS_PREMIUM_USER:
+                chunk_size = 128 * 1024 * 1024
+                workers = 16
+            else:
+                chunk_size = 20 * 1024 * 1024
+                workers = 8
+
+            semaphore = Semaphore(workers)
+
+            async def download_part(offset, limit):
+                async with semaphore:
+                    return await self._download_chunk(message, offset, limit)
+
+            tasks = []
+            for offset in range(0, size, chunk_size):
+                limit = min(chunk_size, size - offset)
+                tasks.append(download_part(offset, limit))
+
+            if tasks:
+                await gather(*tasks)
+
+        download = await self._download_chunk(message, 0, 0)
         if self._listener.is_cancelled:
             return
         if download.is_error:

@@ -1,6 +1,6 @@
 from PIL import Image
 from aioshutil import rmtree
-from asyncio import sleep
+from asyncio import sleep, gather, Semaphore
 from logging import getLogger
 from natsort import natsorted
 from os import walk, path as ospath
@@ -232,19 +232,16 @@ class TelegramUploader:
         res = await self._msg_to_reply()
         if not res:
             return
-        for dirpath, _, files in natsorted(await sync_to_async(walk, self._path)):
-            if dirpath.strip().endswith("/yt-dlp-thumb"):
-                continue
-            if dirpath.strip().endswith("_mltbss"):
-                await self._send_screenshots(dirpath, files)
-                await rmtree(dirpath, ignore_errors=True)
-                continue
-            for file_ in natsorted(files):
+
+        semaphore = Semaphore(3)
+
+        async def process_file(file_, dirpath):
+            async with semaphore:
                 self._error = ""
                 self._up_path = f_path = ospath.join(dirpath, file_)
                 if not await aiopath.exists(self._up_path):
                     LOGGER.error(f"{self._up_path} not exists! Continue uploading!")
-                    continue
+                    return
                 try:
                     self._f_size = await aiopath.getsize(self._up_path)
                     self._total_files += 1
@@ -253,7 +250,7 @@ class TelegramUploader:
                             f"{self._up_path} size is zero, telegram don't upload zero size files"
                         )
                         self._corrupted += 1
-                        continue
+                        return
                     if self._listener.is_cancelled:
                         return
                     cap_mono = await self._prepare_file(file_, dirpath)
@@ -300,15 +297,30 @@ class TelegramUploader:
                         self._msgs_dict[link] = file_
                     await sleep(1)
                 except Exception as err:
-                    LOGGER.error(f"{err}. Path: {self._up_path}")
+                    LOGGER.error(f"{err}. Path: {f_path}")
                     self._error = str(err)
                     self._corrupted += 1
                     if self._listener.is_cancelled:
                         return
                 if not self._listener.is_cancelled and await aiopath.exists(
-                    self._up_path
+                    f_path
                 ):
-                    await remove(self._up_path)
+                    await remove(f_path)
+
+        for dirpath, _, files in natsorted(await sync_to_async(walk, self._path)):
+            if dirpath.strip().endswith("/yt-dlp-thumb"):
+                continue
+            if dirpath.strip().endswith("_mltbss"):
+                await self._send_screenshots(dirpath, files)
+                await rmtree(dirpath, ignore_errors=True)
+                continue
+
+            tasks = []
+            for file_ in natsorted(files):
+                tasks.append(process_file(file_, dirpath))
+
+            if tasks:
+                await gather(*tasks)
         for key, value in list(self._media_dict.items()):
             for subkey, msgs in list(value.items()):
                 if len(msgs) > 1:

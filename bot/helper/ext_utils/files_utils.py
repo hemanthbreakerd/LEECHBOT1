@@ -237,15 +237,18 @@ async def move_and_merge(source, destination, mid):
 async def join_files(opath):
     files = await listdir(opath)
     results = []
-    exists = False
     for file_ in files:
-        if re_search(r"\.0+2$", file_) and await sync_to_async(
-            get_mime_type, f"{opath}/{file_}"
-        ) not in ["application/x-7z-compressed", "application/zip"]:
-            exists = True
+        if re_search(r"\.0+2$", file_):
             final_name = file_.rsplit(".", 1)[0]
+            if final_name in results:
+                continue
             fpath = f"{opath}/{final_name}"
-            cmd = f'cat "{fpath}."* > "{fpath}"'
+            parts = sorted([f for f in files if f.startswith(f"{final_name}.0")])
+            if len(parts) < 2:
+                continue
+
+            exists = True
+            cmd = f'cat ' + ' '.join([f'"{opath}/{p}"' for p in parts]) + f' > "{fpath}"'
             _, stderr, code = await cmd_exec(cmd, True)
             if code != 0:
                 LOGGER.error(f"Failed to join {final_name}, stderr: {stderr}")
@@ -254,9 +257,9 @@ async def join_files(opath):
             else:
                 results.append(final_name)
 
-    if not exists:
+    if not results:
         LOGGER.warning("No files to join!")
-    elif results:
+    else:
         LOGGER.info("Join Completed!")
         for res in results:
             for file_ in files:

@@ -467,6 +467,16 @@ class TaskConfig:
                 )
             )
 
+            self.join = (
+                self.join
+                or self.user_dict.get("JOIN", False)
+                or (
+                    Config.JOIN
+                    if "JOIN" not in self.user_dict
+                    else False
+                )
+            )
+
             if self.thumb != "none" and is_telegram_link(self.thumb):
                 msg = (await get_tg_link_message(self.thumb))[0]
                 self.thumb = (

@@ -31,7 +31,7 @@ class TgManager:
             files_directory="/mltb/tdlib_bot",
             database_encryption_key="mltbmltb",
             use_file_database=False,
-            workers=None,
+            workers=20,
             td_verbosity=1,
         )
         if await path.exists("tdlib_user"):
@@ -44,7 +44,7 @@ class TgManager:
                 files_directory="/mltb/tdlib_user",
                 database_encryption_key="mltbmltb",
                 use_file_database=False,
-                workers=None,
+                workers=20,
                 td_verbosity=1,
                 user_bot=True,
             )
