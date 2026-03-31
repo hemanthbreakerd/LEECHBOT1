@@ -943,6 +943,7 @@ Authentication using [cookies.txt](https://github.com/yt-dlp/yt-dlp/wiki/Extract
 - **Parallel Chunk Download**: Telegram downloads are now split into multiple chunks and downloaded concurrently, significantly increasing download speeds.
 - **Multiple Workers**: Optimized TDLib worker pool to handle multiple upload and download tasks in parallel.
 - **Concurrent Uploads**: Telegram uploader now processes multiple files concurrently within a single task, reaching speeds up to 2000mbps depending on server bandwidth.
+- **Sequential Join**: New 'Join' feature merges splitted files sequentially part-by-part, deleting each part immediately after successful appending to ensure zero stocking and high disk efficiency.
 
 # All Thanks To Our Contributors
 
