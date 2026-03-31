@@ -344,7 +344,9 @@ class FFMpeg:
 
     async def _ffmpeg_progress(self):
         while not (
-            self._listener.subproc.returncode is not None
+            not self._listener.subproc
+            or not self._listener.subproc.stdout
+            or self._listener.subproc.returncode is not None
             or self._listener.is_cancelled
             or self._listener.subproc.stdout.at_eof()
         ):

@@ -93,8 +93,6 @@ class TaskConfig:
         self.compress = False
         self.select = False
         self.seed = False
-        self.compress = False
-        self.extract = False
         self.join = False
         self.private_link = False
         self.stop_duplicate = False
@@ -329,7 +327,7 @@ class TaskConfig:
                 or (
                     Config.LEECH_DUMP_CHAT
                     if "LEECH_DUMP_CHAT" not in self.user_dict
-                    else None
+                    else self.user_id
                 )
             )
             self.hybrid_leech = TgManager.IS_PREMIUM_USER and (
@@ -464,6 +462,16 @@ class TaskConfig:
                     Config.THUMBNAIL_LAYOUT
                     if "THUMBNAIL_LAYOUT" not in self.user_dict
                     else ""
+                )
+            )
+
+            self.join = (
+                self.join
+                or self.user_dict.get("JOIN", False)
+                or (
+                    Config.JOIN
+                    if "JOIN" not in self.user_dict
+                    else False
                 )
             )
 

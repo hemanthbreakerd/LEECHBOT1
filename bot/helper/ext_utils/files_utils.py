@@ -2,7 +2,9 @@ from aioshutil import rmtree as aiormtree, move
 from asyncio import create_subprocess_exec, sleep, wait_for
 from asyncio.subprocess import PIPE
 from magic import Magic
+from natsort import natsorted
 from os import walk, path as ospath, readlink
+from shlex import quote
 from re import split as re_split, I, search as re_search, escape
 from aiofiles.os import (
     remove,
@@ -237,31 +239,44 @@ async def move_and_merge(source, destination, mid):
 async def join_files(opath):
     files = await listdir(opath)
     results = []
-    exists = False
     for file_ in files:
-        if re_search(r"\.0+2$", file_) and await sync_to_async(
-            get_mime_type, f"{opath}/{file_}"
-        ) not in ["application/x-7z-compressed", "application/zip"]:
-            exists = True
+        if re_search(r"\.0+1$", file_):
             final_name = file_.rsplit(".", 1)[0]
+            if final_name in results:
+                continue
             fpath = f"{opath}/{final_name}"
-            cmd = f'cat "{fpath}."* > "{fpath}"'
-            _, stderr, code = await cmd_exec(cmd, True)
-            if code != 0:
-                LOGGER.error(f"Failed to join {final_name}, stderr: {stderr}")
+            parts = natsorted([f for f in files if re_search(rf"^{escape(final_name)}\.0*[0-9]+$", f)])
+            if len(parts) < 2:
+                continue
+
+            first_part = f"{opath}/{parts[0]}"
+            try:
+                await rename(first_part, fpath)
+            except Exception as e:
+                LOGGER.error(f"Failed to rename {parts[0]} to {final_name}: {e}")
+                continue
+
+            success = True
+            for part in parts[1:]:
+                part_path = f"{opath}/{part}"
+                cmd = f"cat {quote(part_path)} >> {quote(fpath)}"
+                _, stderr, code = await cmd_exec(cmd, True)
+                if code != 0:
+                    LOGGER.error(f"Failed to append {part} to {final_name}, stderr: {stderr}")
+                    success = False
+                    break
+                await remove(part_path)
+
+            if success:
+                results.append(final_name)
+            else:
                 if await aiopath.isfile(fpath):
                     await remove(fpath)
-            else:
-                results.append(final_name)
 
-    if not exists:
+    if not results:
         LOGGER.warning("No files to join!")
-    elif results:
+    else:
         LOGGER.info("Join Completed!")
-        for res in results:
-            for file_ in files:
-                if re_search(rf"{escape(res)}\.0[0-9]+$", file_):
-                    await remove(f"{opath}/{file_}")
 
 
 async def split_file(f_path, split_size, listener):
@@ -310,7 +325,9 @@ class SevenZ:
     async def _sevenz_progress(self):
         pattern = r"(\d+)\s+bytes|Total Physical Size\s*=\s*(\d+)"
         while not (
-            self._listener.subproc.returncode is not None
+            not self._listener.subproc
+            or not self._listener.subproc.stdout
+            or self._listener.subproc.returncode is not None
             or self._listener.is_cancelled
             or self._listener.subproc.stdout.at_eof()
         ):
@@ -325,6 +342,8 @@ class SevenZ:
         s = b""
         while not (
             self._listener.is_cancelled
+            or not self._listener.subproc
+            or not self._listener.subproc.stdout
             or self._listener.subproc.returncode is not None
             or self._listener.subproc.stdout.at_eof()
         ):
