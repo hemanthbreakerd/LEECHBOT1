@@ -90,10 +90,10 @@ class TelegramDownloadHelper:
         if size > 10 * 1024 * 1024:
             if self.session == "user" and TgManager.IS_PREMIUM_USER:
                 chunk_size = 128 * 1024 * 1024
-                workers = 16
+                workers = 128
             else:
-                chunk_size = 20 * 1024 * 1024
-                workers = 8
+                chunk_size = 32 * 1024 * 1024
+                workers = 64
 
             semaphore = Semaphore(workers)
 

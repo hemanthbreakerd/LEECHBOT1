@@ -180,10 +180,6 @@ class TaskListener(TaskConfig):
                     non_queued_dl.remove(self.mid)
             await start_from_queued()
 
-        if self.join and not self.is_file:
-            await join_files(up_path)
-            self.size = await get_path_size(up_path)
-
         if self.extract and not self.is_nzb:
             up_path = await self.proceed_extract(up_path, gid)
             if self.is_cancelled:
@@ -193,6 +189,10 @@ class TaskListener(TaskConfig):
             self.size = await get_path_size(up_dir)
             self.clear()
             await remove_excluded_files(up_dir, self.excluded_extensions)
+
+        if self.join and not self.is_file:
+            await join_files(up_path)
+            self.size = await get_path_size(up_path)
 
         if self.ffmpeg_cmds:
             up_path = await self.proceed_ffmpeg(

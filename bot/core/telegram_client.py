@@ -31,7 +31,7 @@ class TgManager:
             files_directory="/mltb/tdlib_bot",
             database_encryption_key="mltbmltb",
             use_file_database=False,
-            workers=20,
+            workers=50,
             td_verbosity=1,
         )
         if await path.exists("tdlib_user"):
@@ -44,7 +44,7 @@ class TgManager:
                 files_directory="/mltb/tdlib_user",
                 database_encryption_key="mltbmltb",
                 use_file_database=False,
-                workers=20,
+                workers=50,
                 td_verbosity=1,
                 user_bot=True,
             )
@@ -79,7 +79,6 @@ class TgManager:
             await cls.user.setAutoDownloadSettings(
                 AutoDownloadSettings(), NetworkTypeOther()
             )
-            await cls.user.downloadFile()
     @classmethod
     async def stop(cls):
         async with cls._lock:

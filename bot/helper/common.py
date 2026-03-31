@@ -327,7 +327,7 @@ class TaskConfig:
                 or (
                     Config.LEECH_DUMP_CHAT
                     if "LEECH_DUMP_CHAT" not in self.user_dict
-                    else None
+                    else self.user_id
                 )
             )
             self.hybrid_leech = TgManager.IS_PREMIUM_USER and (

@@ -229,7 +229,7 @@ class TelegramUploader:
         if not res:
             return
 
-        semaphore = Semaphore(3)
+        semaphore = Semaphore(8)
         err = [None]
 
         async def process_file(file_, dirpath):
@@ -357,7 +357,7 @@ class TelegramUploader:
                 elif is_audio and not is_video:
                     thumb = await get_audio_thumbnail(up_path)
 
-            client = TgManager.user if user_session else self._listener.client
+            client = (TgManager.user if TgManager.user else self._listener.client) if user_session else self._listener.client
             if (
                 self._listener.as_doc
                 or force_document

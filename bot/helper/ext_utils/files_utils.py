@@ -325,7 +325,9 @@ class SevenZ:
     async def _sevenz_progress(self):
         pattern = r"(\d+)\s+bytes|Total Physical Size\s*=\s*(\d+)"
         while not (
-            self._listener.subproc.returncode is not None
+            not self._listener.subproc
+            or not self._listener.subproc.stdout
+            or self._listener.subproc.returncode is not None
             or self._listener.is_cancelled
             or self._listener.subproc.stdout.at_eof()
         ):
@@ -340,6 +342,8 @@ class SevenZ:
         s = b""
         while not (
             self._listener.is_cancelled
+            or not self._listener.subproc
+            or not self._listener.subproc.stdout
             or self._listener.subproc.returncode is not None
             or self._listener.subproc.stdout.at_eof()
         ):
