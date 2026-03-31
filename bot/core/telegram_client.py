@@ -28,7 +28,7 @@ class TgManager:
             api_hash=Config.TELEGRAM_HASH,
             lib_path="/tdlib/lib/libtdjson.so" if is_armv7 else None,
             default_parse_mode="html",
-            files_directory="/mltb/tdlib_bot",
+            files_directory="./tdlib_bot",
             database_encryption_key="mltbmltb",
             use_file_database=False,
             workers=20,
@@ -41,7 +41,7 @@ class TgManager:
                 api_hash=Config.TELEGRAM_HASH,
                 lib_path="/tdlib/lib/libtdjson.so" if is_armv7 else None,
                 default_parse_mode="html",
-                files_directory="/mltb/tdlib_user",
+                files_directory="./tdlib_user",
                 database_encryption_key="mltbmltb",
                 use_file_database=False,
                 workers=20,
@@ -61,9 +61,9 @@ class TgManager:
             await sleep(0.5)
 
         for client in clients:
-            await client.setOption("network_thread_count", 50)
-            await client.setOption("network_delay", 10.0)
-            await client.setOption("network_max_delay", 10.0)
+            await client.setOption("network_thread_count", {"@type": "optionValueInteger", "value": 50})
+            await client.setOption("network_delay", {"@type": "optionValueString", "value": "10.0"})
+            await client.setOption("network_max_delay", {"@type": "optionValueString", "value": "10.0"})
 
         await cls.bot.setAutoDownloadSettings(
             AutoDownloadSettings(), NetworkTypeOther()

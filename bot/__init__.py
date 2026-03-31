@@ -35,7 +35,7 @@ basicConfig(
 LOGGER = getLogger(__name__)
 cpu_no = cpu_count()
 
-DOWNLOAD_DIR = "/mltb/downloads/"
+DOWNLOAD_DIR = "./downloads/"
 intervals = {"status": {}, "qb": "", "jd": "", "nzb": "", "stopAll": False}
 qb_torrents = {}
 jd_downloads = {}

@@ -60,7 +60,7 @@ async def tdlib_file_update(_, update):
     file = update.file
     local_file = file.local
     remote_file = file.remote
-    if local_file.path.startswith("/mltb/downloads/"):
+    if local_file.path.startswith("./downloads/"):
         key = local_file.path
         transfer_type = "upload"
         file_id = None
