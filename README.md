@@ -6,8 +6,8 @@ An extremely powerful and highly optimized Telegram Bot based on [python-aria-mi
 
 ## 🚀 Key Performance Features
 
-- **Extreme Download Speed**: Telegram files are downloaded using a multi-chunk parallel processing engine (up to 128 concurrent connections), maximizing server bandwidth.
-- **Ultra-Fast Uploads**: Concurrent multi-file uploading allows the bot to process up to 10 files simultaneously within a single task, reaching speeds of up to 2000mbps on optimized networks.
+- **Extreme Download Speed**: Telegram files are downloaded using a multi-chunk parallel processing engine (up to 256 concurrent connections), maximizing server bandwidth.
+- **Ultra-Fast Uploads**: Concurrent multi-file uploading allows the bot to process up to 15 files simultaneously within a single task, reaching light ultra high speeds of up to 10000mbps on optimized networks.
 - **Sequential Join (Non-Stocking)**: Automatically merge split files part-by-part. This method saves significant disk space by deleting source parts immediately after they are appended to the main file.
 - **Optimized TDLib**: Customized TDLib worker pools and network thread configurations for maximum throughput and reliability.
 

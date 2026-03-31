@@ -229,7 +229,7 @@ class TelegramUploader:
         if not res:
             return
 
-        semaphore = Semaphore(10)
+        semaphore = Semaphore(15)
         err = [None]
 
         async def process_file(file_, dirpath):

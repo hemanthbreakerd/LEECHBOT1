@@ -31,7 +31,7 @@ class TgManager:
             files_directory="/mltb/tdlib_bot",
             database_encryption_key="mltbmltb",
             use_file_database=False,
-            workers=50,
+            workers=100,
             td_verbosity=1,
         )
         if await path.exists("tdlib_user"):
@@ -44,7 +44,7 @@ class TgManager:
                 files_directory="/mltb/tdlib_user",
                 database_encryption_key="mltbmltb",
                 use_file_database=False,
-                workers=50,
+                workers=100,
                 td_verbosity=1,
                 user_bot=True,
             )
@@ -61,9 +61,9 @@ class TgManager:
             await sleep(0.5)
 
         for client in clients:
-            await client.setOption("network_thread_count", 100)
-            await client.setOption("network_delay", 10.0)
-            await client.setOption("network_max_delay", 10.0)
+            await client.setOption("network_thread_count", 200)
+            await client.setOption("network_delay", 5.0)
+            await client.setOption("network_max_delay", 5.0)
 
         await cls.bot.setAutoDownloadSettings(
             AutoDownloadSettings(), NetworkTypeOther()
