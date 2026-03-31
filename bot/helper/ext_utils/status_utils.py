@@ -25,6 +25,7 @@ class MirrorStatus:
     STATUS_SAMVID = "SamVid"
     STATUS_CONVERT = "Convert"
     STATUS_FFMPEG = "FFmpeg"
+    STATUS_JOIN = "Join"
 
 
 STATUSES = {
@@ -43,6 +44,7 @@ STATUSES = {
     "FF": MirrorStatus.STATUS_FFMPEG,
     "PA": MirrorStatus.STATUS_PAUSED,
     "CK": MirrorStatus.STATUS_CHECK,
+    "JN": MirrorStatus.STATUS_JOIN,
 }
 
 

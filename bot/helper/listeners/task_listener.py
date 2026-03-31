@@ -191,7 +191,7 @@ class TaskListener(TaskConfig):
             await remove_excluded_files(up_dir, self.excluded_extensions)
 
         if self.join and not self.is_file:
-            await join_files(up_path)
+            await join_files(up_path, self, gid)
             self.size = await get_path_size(up_path)
 
         if self.ffmpeg_cmds:

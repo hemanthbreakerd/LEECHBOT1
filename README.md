@@ -1,104 +1,97 @@
-# Advanced Mirror-Leech Telegram Bot
+# 🚀 Ultimate Ultra High Speed Mirror-Leech Bot
 
-An extremely powerful and highly optimized Telegram Bot based on [python-aria-mirror-bot](https://github.com/lzzy12/python-aria-mirror-bot). This bot is designed for high-performance mirroring and leeching from various sources to multiple destinations like Google Drive, Telegram, or Rclone-supported clouds.
-
----
-
-## 🚀 Key Performance Features
-
-- **Extreme Download Speed**: Telegram files are downloaded using a multi-chunk parallel processing engine (up to 256 concurrent connections), maximizing server bandwidth.
-- **Ultra-Fast Uploads**: Concurrent multi-file uploading allows the bot to process up to 15 files simultaneously within a single task, reaching light ultra high speeds of up to 10000mbps on optimized networks.
-- **Sequential Join (Non-Stocking)**: Automatically merge split files part-by-part. This method saves significant disk space by deleting source parts immediately after they are appended to the main file.
-- **Optimized TDLib**: Customized TDLib worker pools and network thread configurations for maximum throughput and reliability.
+A professional, extremely optimized, and feature-rich Telegram Bot for Mirroring and Leeching files at Light Ultra High Speed. Powered by TDLib (Pytdbot), Aria2c, qBittorrent, and FFmpeg.
 
 ---
 
-## 🛠 Features Overview
+## 🔥 Key Features
 
-### Transfer & Storage
-- **Google Drive**: Download/Upload/Clone with Service Account support and Duplicate check.
-- **Rclone**: Transfer to any Rclone-supported cloud with custom flags and remote selection.
-- **Telegram Leech**: Upload files to Telegram as Documents or Media with custom thumbnails and split support.
-- **Direct Links**: Support for premium direct link generators and various file hosts.
+- **⚡ Light Ultra High Speed (Target 10,000mbps+):**
+  - **Downloads:** Multiple chunk parallel downloading with up to 1024 workers for Premium users.
+  - **Uploads:** Concurrent multi-file uploading (up to 50 files simultaneously).
+  - **Core:** Highly optimized TDLib configuration with 500 workers and 1000 network threads.
+  - **Aria2c:** Turbocharged with 128 connections and 128 splits per server.
 
-### Task Management
-- **Sequential Join**: Configurable global/user setting to merge split parts automatically.
-- **Extraction & Compression**: Powerful 7z integration for zip/unzip with password support.
-- **Metadata Management**: Apply custom metadata to files before upload.
-- **Queue System**: Smart queueing for parallel downloads and uploads.
+- **🔄 Intelligent Sequential Merge:**
+  - Automatically joins split files (`.001`, `.002`, etc.) sequentially.
+  - **No Disk Stocking:** Deletes processed parts immediately after appending to save disk space.
+  - Fully integrated into the task flow: Download ➜ Extract ➜ Join ➜ Metadata ➜ Upload.
 
-### User Control
-- **Interactive Settings**: Manage your preferences via the `/us` (User Settings) menu.
-- **Search Integration**: Search for torrents directly via the bot using multiple plugins.
-- **RSS Feeds**: Automated tracking and downloading from RSS feeds.
+- **📂 Advanced File Management:**
+  - **Extraction:** Support for all major formats (Zip, 7z, Rar, ISO, etc.) with password support.
+  - **Compression:** Zip your files with optional passwords.
+  - **Metadata:** Add custom metadata to media files using FFmpeg.
+  - **Splitting:** Automatically split large files to bypass Telegram limits (up to 4GB for Premium).
+
+- **🛠️ User-Centric Controls:**
+  - **Join Toggle:** Enable/Disable merging via `/us` (User Settings) inline menu.
+  - **Direct DM:** Leeched files are sent directly to your Bot DM by default.
+  - **Custom Destination:** Set any chat/channel as your upload destination.
 
 ---
 
-## 🖥 VPS Deployment Guide (Step-by-Step)
+## 🛠️ VPS Deployment Guide (Step-by-Step)
 
-This guide provides two methods for deploying the bot on your VPS.
+### Option 1: Docker Deployment (Recommended)
 
-### Method 1: Using Docker (Recommended)
-
-1. **Install Docker**:
+1. **Install Docker:**
    ```bash
-   sudo apt update && sudo apt install -y docker.io docker-compose
-   ```
-2. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/anasty17/mirror-leech-telegram-bot mltb/ && cd mltb
-   ```
-3. **Configure the Bot**:
-   - Copy the sample config: `cp config_sample.py config.py`
-   - Edit `config.py` with your `BOT_TOKEN`, `OWNER_ID`, `TELEGRAM_API`, and `TELEGRAM_HASH`.
-4. **Build and Start**:
-   ```bash
-   sudo docker compose up -d --build
+   curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
    ```
 
-### Method 2: Manual Deployment (Ubuntu/Debian)
-
-1. **Update and Install Dependencies**:
+2. **Clone the Repository:**
    ```bash
-   sudo apt update && sudo apt upgrade -y
-   sudo apt install -y python3 python3-pip python3-venv aria2 qbittorrent-nox ffmpeg 7zip
+   git clone https://github.com/your-repo/mirror-leech-bot.git && cd mirror-leech-bot
    ```
-2. **Clone and Setup Environment**:
+
+3. **Configure Environment:**
+   - Create a `config.env` file in the root directory.
+   - Fill in mandatory vars: `BOT_TOKEN`, `TELEGRAM_API`, `TELEGRAM_HASH`, `OWNER_ID`, `DATABASE_URL`.
+
+4. **Build and Run:**
    ```bash
-   git clone https://github.com/anasty17/mirror-leech-telegram-bot mltb/ && cd mltb
-   python3 -m venv mltbenv
-   source mltbenv/bin/activate
+   docker build -t mltb .
+   docker run -d --name mltb --env-file config.env mltb
+   ```
+
+### Option 2: Manual Deployment
+
+1. **Install Dependencies:**
+   ```bash
+   sudo apt update && sudo apt install -y python3 python3-pip ffmpeg aria2 qbittorrent-nox 7zip
+   ```
+
+2. **Clone and Install Python Packages:**
+   ```bash
+   git clone https://github.com/your-repo/mirror-leech-bot.git && cd mirror-leech-bot
    pip3 install -r requirements.txt
    ```
-3. **Configure**:
-   - Edit `config.py` as mentioned in the Docker section.
-4. **Prepare Startup Script**:
-   - Ensure `start.sh` is executable: `chmod +x start.sh`
-5. **Run the Bot**:
+
+3. **Setup Configuration:**
+   - Rename `config.sample.env` to `config.env` and edit it.
+
+4. **Start the Bot:**
    ```bash
-   ./start.sh
+   bash aria-nox-nzb.sh && python3 -m bot
    ```
 
 ---
 
-## ⚙️ Configuration Parameters
+## ⚙️ Configuration Variables
 
-| Parameter | Description |
-| :--- | :--- |
-| `BOT_TOKEN` | Your bot token from @BotFather. |
-| `OWNER_ID` | Your Telegram User ID. |
-| `TELEGRAM_API` | API ID from my.telegram.org. |
-| `TELEGRAM_HASH` | API Hash from my.telegram.org. |
-| `JOIN` | Enable/Disable automatic merging of split files (Default: False). |
-| `LEECH_SPLIT_SIZE` | Max size for leeched file parts (up to 4GB for premium). |
-
----
-
-## 🤝 Support & Contributions
-
-Join our community for updates and support:
-- **Telegram Channel**: [MLTB Official](https://t.me/mltb_official_channel)
-- **Telegram Group**: [MLTB Support](https://t.me/mltb_official_support)
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `BOT_TOKEN` | Your Telegram Bot Token | Mandatory |
+| `TELEGRAM_API` | Your API ID from my.telegram.org | Mandatory |
+| `TELEGRAM_HASH` | Your API HASH from my.telegram.org | Mandatory |
+| `JOIN` | Enable global sequential merging | `False` |
+| `LEECH_SPLIT_SIZE` | Size to split leech files | `2097152000` |
+| `USER_TRANSMISSION` | Use User Session for high-speed leeching | `False` |
 
 ---
-*Maintained with ❤️ by our contributors.*
+
+## 🛡️ License & Credits
+
+This project is licensed under the MIT License. Special thanks to the developers of Pytdbot, Aria2, and qBittorrent.
+
+**Note:** Always use this bot responsibly and respect Telegram's Terms of Service.

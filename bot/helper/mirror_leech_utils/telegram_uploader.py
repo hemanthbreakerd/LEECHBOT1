@@ -135,50 +135,59 @@ class TelegramUploader:
         return True
 
     async def _prepare_file(self, file_, dirpath, up_path):
-        lprefix = self._lprefix
-        if lprefix:
-            cap_mono = f"{lprefix} <code>{file_}</code>"
-            lprefix = re_sub("<.*?>", "", lprefix)
-            file_ = f"{lprefix} {file_}"
-            new_path = ospath.join(dirpath, file_)
-            await rename(up_path, new_path)
-            up_path = new_path
-        else:
-            cap_mono = f"<code>{file_}</code>"
-        if len(file_) > 60:
-            if is_archive(file_):
-                name = get_base_name(file_)
-                ext = file_.split(name, 1)[1]
-            elif match := re_match(r".+(?=\..+\.0*\d+$)|.+(?=\.part\d+\..+$)", file_):
-                name = match.group(0)
-                ext = file_.split(name, 1)[1]
-            elif len(fsplit := ospath.splitext(file_)) > 1:
-                name = fsplit[0]
-                ext = fsplit[1]
+        async with self._lock:
+            lprefix = self._lprefix
+            if lprefix:
+                cap_mono = f"{lprefix} <code>{file_}</code>"
+                lprefix = re_sub("<.*?>", "", lprefix)
+                file_ = f"{lprefix} {file_}"
+                new_path = ospath.join(dirpath, file_)
+                if up_path != new_path:
+                    await rename(up_path, new_path)
+                    up_path = new_path
             else:
-                name = file_
-                ext = ""
-            extn = len(ext)
-            remain = 60 - extn
-            name = name[:remain]
-            file_ = f"{name}{ext}"
-            new_path = ospath.join(dirpath, file_)
-            await rename(up_path, new_path)
-            up_path = new_path
-        return cap_mono, up_path, file_
+                cap_mono = f"<code>{file_}</code>"
+            if len(file_) > 60:
+                if is_archive(file_):
+                    name = get_base_name(file_)
+                    ext = file_.split(name, 1)[1]
+                elif match := re_match(r".+(?=\..+\.0*\d+$)|.+(?=\.part\d+\..+$)", file_):
+                    name = match.group(0)
+                    ext = file_.split(name, 1)[1]
+                elif len(fsplit := ospath.splitext(file_)) > 1:
+                    name = fsplit[0]
+                    ext = fsplit[1]
+                else:
+                    name = file_
+                    ext = ""
+                extn = len(ext)
+                remain = max(10, 60 - extn)
+                name = name[:remain]
+                file_ = f"{name}{ext}"
+                new_path = ospath.join(dirpath, file_)
+                if up_path != new_path:
+                    while await aiopath.exists(new_path):
+                        name = f"{name}_1"
+                        file_ = f"{name}{ext}"
+                        new_path = ospath.join(dirpath, file_)
+                    await rename(up_path, new_path)
+                    up_path = new_path
+            return cap_mono, up_path, file_
 
-    def _get_input_media(self, subkey, key):
+    def _get_input_media(self, msgs, key):
         rlist = []
-        for msg in self._media_dict[key][subkey]:
+        for msg in msgs:
             if key == "videos":
+                media = msg.content.video.video
                 input_media = InputMessageVideo(
-                    video=InputFileRemote(id=msg.remote_file_id),
+                    video=InputFileRemote(id=media.remote.id),
                     supports_streaming=True,
                     caption=msg.caption,
                 )
             else:
+                media = msg.content.document.document
                 input_media = InputMessageDocument(
-                    document=InputFileRemote(id=msg.remote_file_id),
+                    document=InputFileRemote(id=media.remote.id),
                     caption=msg.caption,
                 )
             rlist.append(input_media)
@@ -204,7 +213,7 @@ class TelegramUploader:
 
         replied_to = await msgs[0].getRepliedMessage()
         msgs_list = (
-            await send_album(replied_to, self._get_input_media(subkey, key), client=client)
+            await send_album(replied_to, self._get_input_media(msgs, key), client=client)
         ).messages
 
         for msg in msgs:
@@ -229,7 +238,7 @@ class TelegramUploader:
         if not res:
             return
 
-        semaphore = Semaphore(15)
+        semaphore = Semaphore(50)
         err = [None]
 
         async def process_file(file_, dirpath):

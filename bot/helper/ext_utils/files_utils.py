@@ -16,7 +16,7 @@ from aiofiles.os import (
     makedirs as aiomakedirs,
 )
 
-from ... import LOGGER, DOWNLOAD_DIR
+from ... import LOGGER, DOWNLOAD_DIR, task_dict, task_dict_lock
 from ...core.torrent_manager import TorrentManager
 from .bot_utils import sync_to_async, cmd_exec
 from .exceptions import NotSupportedExtractionArchive
@@ -236,7 +236,8 @@ async def move_and_merge(source, destination, mid):
             await move(src_path, dest_path)
 
 
-async def join_files(opath):
+async def join_files(opath, listener, gid):
+    from ..mirror_leech_utils.status_utils.join_status import JoinStatus
     files = await listdir(opath)
     results = []
     for file_ in files:
@@ -249,6 +250,9 @@ async def join_files(opath):
             if len(parts) < 2:
                 continue
 
+            async with task_dict_lock:
+                task_dict[listener.mid] = JoinStatus(listener, None, gid)
+
             first_part = f"{opath}/{parts[0]}"
             try:
                 await rename(first_part, fpath)
@@ -258,6 +262,9 @@ async def join_files(opath):
 
             success = True
             for part in parts[1:]:
+                if listener.is_cancelled:
+                    success = False
+                    break
                 part_path = f"{opath}/{part}"
                 cmd = f"cat {quote(part_path)} >> {quote(fpath)}"
                 _, stderr, code = await cmd_exec(cmd, True)

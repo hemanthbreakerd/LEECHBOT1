@@ -30,13 +30,14 @@ class ProgressTracker:
             }
             callback = self.callbacks.get(key)
 
-        if callback:
-            try:
-                await callback(key, self.progress_dict[key], file_id)
-            except Exception as e:
-                LOGGER.error(f"Callback error for file {key}: {e}")
-        if is_completed:
-            await self.cancel_progress(key)
+            if callback:
+                try:
+                    await callback(key, self.progress_dict[key], file_id)
+                except Exception as e:
+                    LOGGER.error(f"Callback error for file {key}: {e}")
+            if is_completed:
+                self.progress_dict.pop(key, None)
+                self.callbacks.pop(key, None)
 
     async def add_to_progress(self, key, callback):
         async with self.locks[key]:
