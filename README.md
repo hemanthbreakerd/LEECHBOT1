@@ -23,56 +23,63 @@ A professional, extremely optimized, and feature-rich Telegram Bot for Mirroring
   - **Metadata:** Add custom metadata to media files using FFmpeg.
   - **Splitting:** Automatically split large files to bypass Telegram limits (up to 4GB for Premium).
 
-- **🛠️ User-Centric Controls:**
-  - **Join Toggle:** Enable/Disable merging via `/us` (User Settings) inline menu.
-  - **Direct DM:** Leeched files are sent directly to your Bot DM by default.
-  - **Custom Destination:** Set any chat/channel as your upload destination.
-
 ---
 
-## 🛠️ VPS Deployment Guide (Step-by-Step)
+## 🛠️ Deployment Guides (100% Success)
 
-### Option 1: Docker Deployment (Recommended)
+### 🖥️ VPS Deployment (via Termius or SSH)
 
-1. **Install Docker:**
+1. **Install Prerequisites:**
    ```bash
-   curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+   sudo apt update && sudo apt upgrade -y
+   sudo apt install -y python3-pip python3-venv git ffmpeg aria2 qbittorrent-nox 7zip
    ```
 
-2. **Clone the Repository:**
+2. **Clone and Setup:**
    ```bash
-   git clone https://github.com/your-repo/mirror-leech-bot.git && cd mirror-leech-bot
+   git clone https://github.com/your-repo/mirror-leech-bot.git mltb && cd mltb
    ```
 
-3. **Configure Environment:**
-   - Create a `config.env` file in the root directory.
-   - Fill in mandatory vars: `BOT_TOKEN`, `TELEGRAM_API`, `TELEGRAM_HASH`, `OWNER_ID`, `DATABASE_URL`.
-
-4. **Build and Run:**
+3. **Install Requirements:**
    ```bash
-   docker build -t mltb .
-   docker run -d --name mltb --env-file config.env mltb
-   ```
-
-### Option 2: Manual Deployment
-
-1. **Install Dependencies:**
-   ```bash
-   sudo apt update && sudo apt install -y python3 python3-pip ffmpeg aria2 qbittorrent-nox 7zip
-   ```
-
-2. **Clone and Install Python Packages:**
-   ```bash
-   git clone https://github.com/your-repo/mirror-leech-bot.git && cd mirror-leech-bot
+   python3 -m pip install --upgrade pip
    pip3 install -r requirements.txt
    ```
 
-3. **Setup Configuration:**
-   - Rename `config.sample.env` to `config.env` and edit it.
+4. **Configure:**
+   - Create a `config.env` file. Fill in: `BOT_TOKEN`, `TELEGRAM_API`, `TELEGRAM_HASH`, `OWNER_ID`, `DATABASE_URL`.
 
-4. **Start the Bot:**
+5. **Run:**
    ```bash
    bash aria-nox-nzb.sh && python3 -m bot
+   ```
+
+### 📱 Termux Deployment (Android)
+
+1. **Setup Termux:**
+   ```bash
+   pkg update && pkg upgrade -y
+   pkg install -y python git ffmpeg aria2 qbittorrent 7zip-full
+   ```
+
+2. **Clone and Install:**
+   ```bash
+   git clone https://github.com/your-repo/mirror-leech-bot.git mltb && cd mltb
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+
+3. **Run:**
+   ```bash
+   bash aria-nox-nzb.sh && python3 -m bot
+   ```
+
+### 🐳 Docker Deployment
+
+1. **Build and Run:**
+   ```bash
+   docker build -t mltb .
+   docker run -d --name mltb --env-file config.env mltb
    ```
 
 ---
@@ -86,12 +93,15 @@ A professional, extremely optimized, and feature-rich Telegram Bot for Mirroring
 | `TELEGRAM_HASH` | Your API HASH from my.telegram.org | Mandatory |
 | `JOIN` | Enable global sequential merging | `False` |
 | `LEECH_SPLIT_SIZE` | Size to split leech files | `2097152000` |
-| `USER_TRANSMISSION` | Use User Session for high-speed leeching | `False` |
 
 ---
 
-## 🛡️ License & Credits
+## 🛡️ Troubleshooting
 
-This project is licensed under the MIT License. Special thanks to the developers of Pytdbot, Aria2, and qBittorrent.
+- **ERROR: requirements.txt not found:** Ensure you are in the `/mltb` directory before running `pip install`.
+- **Git Error in Update:** We have added `safe.directory $(pwd)` to `update.py` to fix common permission issues on VPS.
+- **Speed Issues:** Use a VPS with at least 1Gbps network and a Premium Telegram account for maximum 10,000mbps+ target throughput.
+
+---
 
 **Note:** Always use this bot responsibly and respect Telegram's Terms of Service.

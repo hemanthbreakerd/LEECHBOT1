@@ -4,7 +4,8 @@ WORKDIR /mltb
 RUN chmod 777 /mltb
 
 COPY requirements.txt .
-RUN mltbenv/bin/pip install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 

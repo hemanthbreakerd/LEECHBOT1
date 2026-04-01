@@ -72,6 +72,7 @@ if UPSTREAM_REPO:
             f"git init -q \
                      && git config --global user.email e.anastayyar@gmail.com \
                      && git config --global user.name mltb \
+                     && git config --global --add safe.directory $(pwd) \
                      && git add . \
                      && git commit -sm update -q \
                      && git remote add origin {UPSTREAM_REPO} \
